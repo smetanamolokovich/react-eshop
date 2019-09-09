@@ -20,7 +20,7 @@ const CollectionItem = ({item, addItem}) => {
             </div>
             <div className="collection-footer">
                 <span className="name">{name}</span>
-                <div className="price">{price}</div>
+                <div className="price">${price}</div>
             </div>
 
             <CustomButton 
