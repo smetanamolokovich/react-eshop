@@ -8,11 +8,10 @@ import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import { selectCartHidden } from '../../redux/cart/cart.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 
-import { ReactComponent as Logo } from '../../assets/crown.svg';
-
 import {
   HeaderContainer,
   LogoContainer,
+  LogoSVG,
   OptionsContainer,
   OptionLink
 } from './header.styles';
@@ -20,7 +19,7 @@ import {
 const Header = ({ currentUser, hidden }) => (
   <HeaderContainer>
     <LogoContainer to='/'>
-      <Logo className='logo' />
+      <LogoSVG/>
     </LogoContainer>
     <OptionsContainer>
       <OptionLink to='/shop'>SHOP</OptionLink>

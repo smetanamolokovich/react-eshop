@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { ReactComponent as Logo } from '../../assets/hanger.svg';
 
 export const HeaderContainer = styled.div`
   height: 70px;
@@ -12,7 +13,11 @@ export const HeaderContainer = styled.div`
 export const LogoContainer = styled(Link)`
   height: 100%;
   width: 70px;
-  padding: 25px;
+`;
+
+export const LogoSVG = styled(Logo)`
+  width: 100%;
+  height: 100%;
 `;
 
 export const OptionsContainer = styled.div`
