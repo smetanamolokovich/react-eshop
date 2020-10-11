@@ -11,11 +11,13 @@ import {
     signInSuccess,
     signOutFailure,
     signOutSuccess,
+    signUpFailure,
+    signUpSuccess,
 } from './user.actions';
 
-function* getSnapshotFromUserAuth(userAuth) {
+function* getSnapshotFromUserAuth(userAuth, additionalData) {
     try {
-        const userRef = yield call(createUserProfileDocument, userAuth);
+        const userRef = yield call(createUserProfileDocument, userAuth, additionalData);
         const userSnapshot = yield userRef.get();
 
         yield put(
@@ -49,11 +51,28 @@ function* signWithGoogle() {
 
 function* signWithEmail({ payload: { email, password } }) {
     try {
-        const { user } = yield auth.signInWithPopup(googleProvider);
+        const { user } = yield auth.signInWithEmailAndPassword(email, password);
         yield getSnapshotFromUserAuth(user);
     } catch (err) {
         yield put(signInFailure(err));
     }
+}
+
+function* signUp({ payload: { displayName, email, password } }) {
+    try {
+        const { user } = yield auth.createUserWithEmailAndPassword(
+            email,
+            password
+        );
+       
+        yield put(signUpSuccess({ user, additionalData: { displayName } }));
+    } catch (err) {
+        yield put(signUpFailure());
+    }
+}
+
+function* singInAfterSignUp({ payload: { user, additionalData } }) {
+    yield getSnapshotFromUserAuth(user, additionalData);
 }
 
 function* signOut() {
@@ -77,6 +96,14 @@ function* onCheckUserSession() {
     yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
 }
 
+function* onSignUp() {
+    yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
+}
+
+function* onSignUpSuccess() {
+    yield takeLatest(UserActionTypes.SIGN_UP_SUCCESS, singInAfterSignUp);
+}
+
 function* onSignOut() {
     yield takeLatest(UserActionTypes.SIGN_OUT_START, signOut);
 }
@@ -87,5 +114,7 @@ export function* userSagas() {
         call(onEmailSignInStart),
         call(onCheckUserSession),
         call(onSignOut),
+        call(onSignUp),
+        call(onSignUpSuccess),
     ]);
 }
