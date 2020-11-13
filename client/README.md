@@ -14,9 +14,6 @@
 - Persistance + Session Storage
 - ~~Context API~~
 - ~~React Suspense + React Lazy~~
-- ~~GraphQL~~
-- ~~Apollo~~
-- ~~PWAs~~
 - ~~React Performance~~
 - ~~React Design Patterns~~
 - ~~Testing with Jest, Enzyme and snapshots~~
